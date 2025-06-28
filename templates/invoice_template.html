@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 00px; }
+        h2 { font-size: 16px; }
+        .meta, .customer { margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 6px; text-align: left; }
+        .right { text-align: right; }
+        .total-row td { font-weight: bold; }
+        .footer { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <table width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 00px; border: none;">
+        <tr style="border: none;">
+          <td valign="top" style="border: none; width: 200px;">
+            <img src="static/logo.jpeg" width="190" style="height: auto;">
+          </td>
+          <td valign="top" style="border: none;">
+            <h2 style="margin: 0;">WEBPLAUSE TECHNOLOGY PVT. LTD.</h2>
+            CIN No: U72502DL2021PTC377807<br>
+            GST No: 07AACCW8950E1Z5<br>
+            Address: Plot No: 62 lane No 2 Westend Marg Saidulajab<br>
+            New Delhi: 110030 INDIA<br>
+            PH: 01141574470<br>
+            Email: Info@Webplause.com
+          </td>
+        </tr>
+      </table>
+
+      <table width="100%" cellspacing="0" cellpadding="0"
+       style="margin-bottom: 15px; border: none; height: 80px;">
+  <tr style="border: none;">
+    <td width="47%" style="background-color: #FBB91B; border: none;">&nbsp;</td>
+    <td width="40%" style="
+        text-align: center;
+        vertical-align: middle;
+        font-family: 'Times New Roman';
+        font-weight: normal;
+        font-size: 75px;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        border: none;
+    ">
+      INVOICE
+    </td>
+    <td width="13%" style="background-color: #FBB91B; border: none;">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+            
+
+<table width="100%" style="margin-bottom: 15px; border: none;">
+    <tr style="border: none;">
+      <td style="vertical-align: top; border: none; width: 60%;">
+        <strong>Invoice To:</strong><br>
+        {{ customer.name }}<br>
+        {{ customer.address | replace('\\n', '<br>') }}<br>
+        Tel: {{ customer.phone }}<br>
+        Email: {{ customer.email }}
+      </td>
+      <td style="vertical-align: top; text-align: right; border: none; width: 40%;">
+        <strong>Invoice No:</strong> {{ invoice_no }}<br>
+        <strong>Date:</strong> {{ date }}
+      </td>
+    </tr>
+  </table>
+  
+  <table>
+    <tr style="background-color: #56575b; height: 50px;">
+      <th style="
+          color: white;
+          font-size: 18px;
+          padding: 5px;
+          text-align: center;
+          vertical-align: middle;
+          font-family: 'Times New Roman';
+          font-weight: normal;
+      ">
+        SERVICE
+      </th>
+      <th style="
+          color: white;
+          font-size: 18px;
+          padding: 5px;
+          text-align: center;
+          vertical-align: middle;
+          font-family: 'Times New Roman';
+          font-weight: normal;
+      ">
+        PROJECT DETAILS
+      </th>
+      <th style="
+          color: white;
+          font-size: 20px;
+          padding: 5px;
+          text-align: center;
+          vertical-align: middle;
+          font-family: 'Times New Roman';
+          font-weight: normal;
+      ">
+        COST
+      </th>
+    </tr>
+    
+            {% for item in items %}
+            <tr>
+                <td>{{ item.service }}</td>
+                <td>{{ item.project }}</td>
+                <td class="right">US$ {{ item.cost }}</td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+                <td colspan="2" class="right">TOTAL AMOUNT PAYBLE</td>
+                <td class="right">US$ {{ total }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>Payment Mode: PayPal/Credit Card</p>
+        <p>Pay via Credit Card (CC): <a href="{{ payment_link }}">{{ payment_link }}</a></p>
+        <p>
+            Or you can directly send to us at our official PayPal on
+            <span style="color: #7C87BA;">INFO@WEBPLAUSE.COM</span>
+          </p>        <p>Company's Bank Details:<br>
+            Bank Name : INDUSIND BANK<br>
+            A/c No. : 258368660511<br>
+            Branch Add : Upper Ground Floor, #E-27, Private Bungalows,<br>
+            Saket, New Delhi,110017 India.<br>
+            IFSC Code : INDB000l 006</p>
+        
+    </div>
+    <div class="footer" style="
+    background-color: #4029BA;
+    text-align: center;
+    color: white;
+    padding: 12px 0;
+    margin-top: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    height: 60px
+">
+    Thanks For The Opportunity
+</div>
+
+</body>
+</html>
