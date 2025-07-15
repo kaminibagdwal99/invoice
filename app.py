@@ -4,6 +4,9 @@ from xhtml2pdf import pisa
 from jinja2 import Environment, FileSystemLoader
 import uuid
 import os
+from google_sheets_helper import append_invoice
+import json
+
 
 st.set_page_config(page_title="Invoice Generator", page_icon="📄")
 st.title("📄 Webplause Invoice Generator")
@@ -42,7 +45,7 @@ for i in range(num_items):
 st.header("Invoice Summary")
 user_invoice_no = st.text_input("Invoice Number (leave blank to auto-generate)")
 user_date = st.text_input("Invoice Date (leave blank for today)")
-total  = sum(float(item["cost"]) for item in items)
+total = st.text_input("Total Cost (USD)")
 payment_link = st.text_input("Payment Link")
 
 if st.button("Generate Invoice"):
@@ -83,5 +86,25 @@ if st.button("Generate Invoice"):
             file_name=output_path,
             mime="application/pdf"
         )
+
+    # Save invoice details to Google Sheet
+    row = {
+        "invoice_no": invoice_no,
+        "date": date,
+        "customer_name": customer_name,
+        "customer_email": customer_email,
+        "customer_phone": customer_phone,
+        "customer_address": customer_address,
+        "total": total,
+        "payment_link": payment_link,
+        "items": json.dumps(items)
+    }
+
+    try:
+        append_invoice(row, "InvoiceData")  # change this to your actual sheet name
+        st.success("✅ Invoice data saved to Google Sheet.")
+    except Exception as e:
+        st.warning(f"⚠️ Failed to save invoice to Google Sheets: {e}")
+
 
     os.remove(output_path)
