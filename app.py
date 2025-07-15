@@ -42,7 +42,7 @@ for i in range(num_items):
 st.header("Invoice Summary")
 user_invoice_no = st.text_input("Invoice Number (leave blank to auto-generate)")
 user_date = st.text_input("Invoice Date (leave blank for today)")
-total = st.text_input("Total Cost (USD)")
+total  = sum(float(item["cost"]) for item in items)
 payment_link = st.text_input("Payment Link")
 
 if st.button("Generate Invoice"):
