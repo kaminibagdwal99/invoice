@@ -29,7 +29,8 @@ def append_invoice(row_data, sheet_name: str):
         row_data["customer_phone"],
         row_data["customer_address"],
         row_data["total"],
-        row_data["payment_link"],
+        row_data["payment_option"],
+        row_data["duration"],
         row_data["items"],
     ])
     return True

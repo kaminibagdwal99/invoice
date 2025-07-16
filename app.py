@@ -47,6 +47,8 @@ user_invoice_no = st.text_input("Invoice Number (leave blank to auto-generate)")
 user_date = st.text_input("Invoice Date (leave blank for today)")
 total = st.text_input("Total Cost (USD)")
 payment_link = st.text_input("Payment Link")
+payment_option = st.selectbox("Payment Mode", ["Credit Card", "PayPal", "Bank Transfer"])
+duration = st.text_input("Duration (e.g., 3 months, 1 year)")
 
 if st.button("Generate Invoice"):
     invoice_no = user_invoice_no.strip() if user_invoice_no.strip() else get_next_invoice_number()
@@ -64,7 +66,9 @@ if st.button("Generate Invoice"):
         "date": date,
         "items": items,
         "total": total,
-        "payment_link": payment_link
+        "payment_link": payment_link,
+        "payment_option" : payment_option,
+        "duration": duration
     }
 
     # Render HTML using Jinja2
@@ -96,7 +100,8 @@ if st.button("Generate Invoice"):
         "customer_phone": customer_phone,
         "customer_address": customer_address,
         "total": total,
-        "payment_link": payment_link,
+        "payment_option": payment_option,
+        "duration": duration,
         "items": json.dumps(items)
     }
 
