@@ -37,9 +37,32 @@ num_items = st.number_input("Number of items", min_value=1, max_value=10, value=
 for i in range(num_items):
     st.subheader(f"Item {i+1}")
     service = st.text_input(f"Service {i+1}", key=f"service_{i}")
-    project = st.text_input(f"Project {i+1}", key=f"project_{i}")
+    project = st.text_input(f"Project Description {i+1}", key=f"project_{i}")
+    num_keywords = st.text_input(f"Number of Keywords {i+1}", key=f"keywords_{i}")
+    num_backlinks = st.text_input(f"Number of Backlinks {i+1}", key=f"backlinks_{i}")
+    targeted_search_engine = st.text_input(f"Targeted Search Engine{i+1}", key = "targeted_search_engine_{i}")
     cost = st.text_input(f"Cost {i+1} (USD)", key=f"cost_{i}")
-    items.append({"service": service, "project": project, "cost": cost})
+
+    # Build description conditionally
+    description_lines = [project]
+    if num_keywords.strip():
+        description_lines.append(f"<strong>No of Keywords:</strong> {num_keywords}")
+    if num_backlinks.strip():
+        description_lines.append(f"<strong>No of Backlinks:</strong> {num_backlinks}")
+    if targeted_search_engine.strip():
+        description_lines.append(f"<strong>Targeted Search Engine:</strong> {targeted_search_engine}")
+
+    full_project = "<br>".join(description_lines)
+
+    items.append({
+        "service": service,
+        "project": full_project,  # shown in PDF
+        "cost": cost,
+        "keywords": num_keywords,
+        "datalinks": num_backlinks,
+        "targeted_search_engine": targeted_search_engine
+    })
+
 
 # Summary
 st.header("Invoice Summary")
@@ -54,7 +77,7 @@ if st.button("Generate Invoice"):
     invoice_no = user_invoice_no.strip() if user_invoice_no.strip() else get_next_invoice_number()
     date = user_date.strip() if user_date.strip() else datetime.now().strftime("%d/%m/%Y")
 
-    # Prepare data
+    # Prepare data for rendering
     data = {
         "customer": {
             "name": customer_name,
@@ -67,7 +90,7 @@ if st.button("Generate Invoice"):
         "items": items,
         "total": total,
         "payment_link": payment_link,
-        "payment_option" : payment_option,
+        "payment_option": payment_option,
         "duration": duration
     }
 
@@ -101,15 +124,15 @@ if st.button("Generate Invoice"):
         "customer_address": customer_address,
         "total": total,
         "payment_option": payment_option,
+        "payment_link": payment_link,
         "duration": duration,
         "items": json.dumps(items)
     }
 
     try:
-        append_invoice(row, "InvoiceData")  # change this to your actual sheet name
+        append_invoice(row, "InvoiceData")  # Change this to your actual sheet name
         st.success("✅ Invoice data saved to Google Sheet.")
     except Exception as e:
         st.warning(f"⚠️ Failed to save invoice to Google Sheets: {e}")
-
 
     os.remove(output_path)
